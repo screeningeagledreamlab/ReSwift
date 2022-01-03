@@ -74,7 +74,7 @@ open class Store<State: StateType>: StoreType {
     {
         // If the same subscriber is already registered with the store, replace the existing
         // subscription with the new one.
-        if let index = subscriptions.index(where: { $0.subscriber === subscriber }) {
+        if let index = subscriptions.firstIndex(where: { $0.subscriber === subscriber }) {
             subscriptions.remove(at: index)
         }
 
@@ -93,7 +93,7 @@ open class Store<State: StateType>: StoreType {
 
     open func subscribe<S: StoreSubscriber>(_ subscriber: S)
         where S.StoreSubscriberStateType == State {
-            _ = subscribe(subscriber, transform: nil)
+            subscribe(subscriber, transform: nil)
     }
 
     open func subscribe<SelectedState, S: StoreSubscriber>(
@@ -124,7 +124,7 @@ open class Store<State: StateType>: StoreType {
     }
 
     open func unsubscribe(_ subscriber: AnyStoreSubscriber) {
-        if let index = subscriptions.index(where: { return $0.subscriber === subscriber }) {
+        if let index = subscriptions.firstIndex(where: { return $0.subscriber === subscriber }) {
             subscriptions.remove(at: index)
         }
     }
@@ -189,7 +189,7 @@ open class Store<State: StateType>: StoreType {
 extension Store where State: Equatable {
     open func subscribe<S: StoreSubscriber>(_ subscriber: S)
         where S.StoreSubscriberStateType == State {
-            _ = subscribe(subscriber, transform: { $0.skipRepeats() })
+            subscribe(subscriber, transform: { $0.skipRepeats() })
     }
 
     open func subscribe<SelectedState: Equatable, S: StoreSubscriber>(
