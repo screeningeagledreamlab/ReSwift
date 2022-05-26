@@ -12,12 +12,14 @@ let package = Package(
     targets: [
         .target(
             name: "ReSwift",
-            path: "ReSwift"
+            path: "ReSwift",
+            exclude: ["Info.plist"]
         ),
         .testTarget(
             name: "ReSwiftTests",
             dependencies: ["ReSwift"],
-            path: "ReSwiftTests"
+            path: "ReSwiftTests",
+            exclude: ["Info.plist"]
         )
     ]
 )
